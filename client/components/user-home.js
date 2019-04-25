@@ -11,7 +11,11 @@ export const UserHome = props => {
   return (
     <div>
       <h3>Welcome, {email}</h3>
+      <h1>Your current grammar score is: </h1>
+      <h2>If you're ready to start, say, "Start!"</h2>
+      <h2>If you want to review your previous mistakes, say, "Review!"</h2>
     </div>
+    
   )
 }
 
