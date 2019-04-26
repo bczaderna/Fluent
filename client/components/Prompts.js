@@ -36,16 +36,19 @@ class Prompt extends Component {
   }
 
   
-
   async checkGrammar() {
-  
     // //create POST to LanguageTool API
     //try sending it as query string w/ string interpolation
     //look at axios API - sending it url encoded
-     const res = await Axios.post(
-     'https://languagetool.org/api/v2/check',
-      this.state
-     )
+
+    const res = await Axios.get(
+        `http://api.grammarbot.io/v2/check?api_key=AF5B9M2X&text=${this.state}`
+    )
+
+    //  const res = await Axios.post(
+    //  'https://languagetool.org/api/v2/check',
+    //   this.state
+    //  )
      const correctionInfo = res.data
     console.log(correctionInfo, 'correction info')
       
