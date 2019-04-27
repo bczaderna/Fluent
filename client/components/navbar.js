@@ -6,8 +6,9 @@ import {logout} from '../store'
 
 const Navbar = ({handleClick, isLoggedIn}) => (
   <div>
-    <h1>FLUENT</h1>
-    <p>A place to practice your grammar</p>
+    <h1>Flu·ent</h1>
+    <h3>/ˈflo͞oənt/</h3>
+    <p>Your very own grammar police</p>
     <nav>
       {isLoggedIn ? (
         <div>
