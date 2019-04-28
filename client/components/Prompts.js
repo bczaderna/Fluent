@@ -3,6 +3,8 @@ import {connect} from 'react-redux'
 import {BrowserRouter, Route, Link, Redirect} from 'react-router-dom'
 import annyang from 'annyang'
 import Axios from 'axios'
+import Incorrect from './Incorrect'
+import Correct from './Correct'
 const querystring = require('querystring')
 
 class Prompt extends Component {
@@ -15,7 +17,8 @@ class Prompt extends Component {
       suggestedText: '',
       message: '',
       ruleDescription: '',
-      restart: false
+      restart: false,
+      allcorrect: false
     }
 
     this.prompts = [
@@ -131,12 +134,13 @@ class Prompt extends Component {
       queryString
     )
     const correctionInfo = res.data
+    console.log(correctionInfo, 'correction info')
 
     let feedback = correctionInfo.matches.map(function(match) {
       let length = match.length
       let message = match.message
       let index = match.offset
-      let replacement = match.replacements[0].value;
+      let replacement = match.replacements[0].value
       // let replacement = match.replacements[0].value
       let ruleId = match.rule.id
       let ruleDescription = match.rule.description
@@ -159,6 +163,14 @@ class Prompt extends Component {
       feedback
     ).join('')
 
+    if (!feedback.length) {
+      this.setState({
+        allcorrect: true
+      })
+    }
+
+    console.log(this.state.allcorrect, 'allcorrect state -- should be true')
+
     this.setState({
       suggestedText: correctedPiece
     })
@@ -169,29 +181,15 @@ class Prompt extends Component {
   generatePrompt() {
     let randomIndex = Math.floor(Math.random() * this.prompts.length)
     console.log(randomIndex, 'random index')
-    let randomPrompt = this.prompts[randomIndex];
-    return randomPrompt;
+    let randomPrompt = this.prompts[randomIndex]
+    return randomPrompt
   }
 
   render() {
-    
-
-    return this.state.restart === true ? (
-      <div>Restart</div>
-    ) : this.state.suggestedText && this.state.restart === false ? (
+    //if there have been no answers submitted yet....
+    return !this.state.suggestedText && this.state.allcorrect === false ? (
       <div>
-        <ul>
-          <li>
-            Not quite! Here is the correct text:{this.state.suggestedText}
-          </li>
-          <li>Suggestion: {this.state.message}</li>
-          <li>Grammar rule to review: {this.state.ruleDescription}</li>
-        </ul>
-        To try again, say "Try Again"
-      </div>
-    ) : (
-      <div>
-        <h1>{}</h1>
+        <h1>PROMPT</h1>
 
         <button
           className="button"
@@ -202,8 +200,15 @@ class Prompt extends Component {
           Check My Grammar
         </button>
       </div>
-    )
-  }
+    ) : this.state.suggestedText !== ''? (
+      <div>
+      <Incorrect text={this.state.text} suggestedText={this.state.suggestedText} message= {this.state.message} rule={this.state.ruleDescription}/></div>
+    ) : this.state.suggestedText === '' && this.state.allcorrect === true? (
+      <div>
+      <Correct text={this.state.text}/></div>
+    ) 
+  : null
+}
 }
 
-export default Prompt
+export default Prompt;
