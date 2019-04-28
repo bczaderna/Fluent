@@ -3,6 +3,10 @@ const db = require("../db");
 
 const Prompts = db.define('prompts', {
     text: {
-        type: Sequelize.TEXT
+        type: Sequelize.TEXT, 
+        allowNull: false
     }
 })
+
+module.exports = Prompts
+

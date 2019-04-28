@@ -41,8 +41,9 @@ class UserHome extends Component {
     return this.state.start === false && this.state.review === false? (
     <div>
       <h3>Welcome, Bianca! </h3>
-      <h1>Your current grammar score is: {5}</h1>
-      <h2>If you're ready to start, say, "Start!"</h2>
+     
+      <h2>Your current grammar score is: {5}</h2><br></br>
+      <h2>If you're ready to start practicing, say, "Start!"</h2>
       <h2>If you want to review your previous mistakes, say, "Review!"</h2>
     </div> ) : (
       

@@ -16,6 +16,9 @@ const User = db.define('user', {
       return () => this.getDataValue('password')
     }
   },
+  grammarScore: {
+    type: Sequelize.INTEGER,
+  },
   salt: {
     type: Sequelize.STRING,
     // Making `.salt` act like a function hides it when serializing to JSON.
@@ -52,6 +55,7 @@ User.encryptPassword = function(plainText, salt) {
     .update(salt)
     .digest('hex')
 }
+
 
 /**
  * hooks

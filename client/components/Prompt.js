@@ -23,10 +23,7 @@ class Prompt extends Component {
     }
 
     this.prompts = [
-      'Sally might have forgotten her glasses. What would you ask her to make sure she remembered them?',
-      'I want to have if you have tried my favorite passtimes. How would I ask you if you have tried the one I am currently doing?',
-      'Michael and Lucy played the game. They had ___ the game.',
-      'I have just organized all the books on the shelf. The kids have just come back into the classroom. They need not ___ them.'
+      'How old is John?', 'She feels inferior ______ us.', 'It’s obvious ______ me.', 'I plan to go fishing at 8pm today. I will go fishing ______ evening.', 'Do you need life insurance? You can apply _______ life insurance at this company.', 'I do ______ tests because I don’t study enough.'
     ]
 
     this.checkGrammar = this.checkGrammar.bind(this)
@@ -186,15 +183,13 @@ class Prompt extends Component {
     this.setState({
       suggestedText: correctedPiece
     })
- 
-    // annyang.pause();
 
     return correctedPiece
 
     
   }
 
-  generatePrompt() {
+  generatePrompt = () => {
     let randomIndex = Math.floor(Math.random() * this.prompts.length)
     console.log(randomIndex, 'random index')
     let randomPrompt = this.prompts[randomIndex]
@@ -203,8 +198,11 @@ class Prompt extends Component {
 
   render() {
     console.log(this.state, 'what is on state in PROMPT.js')
+    let randomPrompt = this.generatePrompt();
+
+    console.log(this.state.suggestedText, 'what is suggested text')
     //if there have been no answers submitted yet....
-    return !this.state.suggestedText && this.state.allcorrect === false ? (
+    return !this.state.suggestedText  &&!this.state.suggestedText && this.state.allcorrect === false ? (
       <div>
         <h1>PROMPT</h1>
 
