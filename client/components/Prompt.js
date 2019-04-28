@@ -7,7 +7,6 @@ import Incorrect from './Incorrect'
 import Correct from './Correct'
 const querystring = require('querystring')
 
-
 class Prompt extends Component {
   constructor() {
     super()
@@ -23,10 +22,6 @@ class Prompt extends Component {
       continue: false,
       prompt: ''
     }
-
-    // this.prompts = [
-    //   'How old is John?', 'She feels inferior ______ us.', 'It’s obvious ______ me.', 'I plan to go fishing at 8pm today. I will go fishing ______ evening.', 'Do you need life insurance? You can apply _______ life insurance at this company.', 'I do ______ tests because I don’t study enough.'
-    // ]
 
     this.checkGrammar = this.checkGrammar.bind(this)
     this.replaceWithCorrections = this.replaceWithCorrections.bind(this)
@@ -65,22 +60,22 @@ class Prompt extends Component {
   }
 
   async componentDidMount() {
-
     let res = await Axios.get('/api/prompt')
-    let prompt = res.data;
+    let prompt = res.data
 
     this.setState({
       prompt: prompt
     })
-    
+
     console.log(prompt, 'prompt in Prompt component')
-  
-    annyang.start({ autoRestart: false });
+
+    annyang.start({autoRestart: false})
 
     var commands = {
-      'continue': () => this.setState({
-        continue: true 
-      })
+      continue: () =>
+        this.setState({
+          continue: true
+        })
     }
     //add our commands to annyang
     annyang.addCommands(commands)
@@ -95,9 +90,15 @@ class Prompt extends Component {
       bestGuessWithPunc = this.state.text + ' ' + bestGuessWithPunc
 
       if (bestGuessWithPunc.includes('.')) {
-        bestGuessWithPunc = bestGuessWithPunc.slice(0, bestGuessWithPunc.indexOf('.') + 1)
+        bestGuessWithPunc = bestGuessWithPunc.slice(
+          0,
+          bestGuessWithPunc.indexOf('.') + 1
+        )
       } else if (bestGuessWithPunc.includes('?')) {
-        bestGuessWithPunc = bestGuessWithPunc.slice(0, bestGuessWithPunc.indexOf('?') + 1)
+        bestGuessWithPunc = bestGuessWithPunc.slice(
+          0,
+          bestGuessWithPunc.indexOf('?') + 1
+        )
       }
 
       console.log(bestGuessWithPunc, 'should just be first sentence???')
@@ -196,24 +197,16 @@ class Prompt extends Component {
     })
 
     return correctedPiece
-
-    
   }
-
-  // generatePrompt = () => {
-  //   let randomIndex = Math.floor(Math.random() * this.prompts.length)
-  //   console.log(randomIndex, 'random index')
-  //   let randomPrompt = this.prompts[randomIndex]
-  //   return randomPrompt
-  // }
 
   render() {
     console.log(this.state, 'what is on state in PROMPT.js')
-    // let randomPrompt = this.generatePrompt();
 
     console.log(this.state.suggestedText, 'what is suggested text')
     //if there have been no answers submitted yet....
-    return !this.state.suggestedText  &&!this.state.suggestedText && this.state.allcorrect === false ? (
+    return !this.state.suggestedText &&
+      !this.state.suggestedText &&
+      this.state.allcorrect === false ? (
       <div>
         <h1>{this.state.prompt.text}</h1>
 
@@ -226,15 +219,22 @@ class Prompt extends Component {
           Check My Grammar
         </button>
       </div>
-    ) : this.state.suggestedText !== ''? (
+    ) : this.state.suggestedText !== '' ? (
       <div>
-      <Incorrect text={this.state.text} suggestedText={this.state.suggestedText} message= {this.state.message} rule={this.state.ruleDescription} continue = {this.state.continue} /></div>
-    ) : this.state.suggestedText === '' && this.state.allcorrect === true? (
+        <Incorrect
+          text={this.state.text}
+          suggestedText={this.state.suggestedText}
+          message={this.state.message}
+          rule={this.state.ruleDescription}
+          continue={this.state.continue}
+        />
+      </div>
+    ) : this.state.suggestedText === '' && this.state.allcorrect === true ? (
       <div>
-      <Correct text={this.state.text} continue={this.state.continue}/></div>
-    ) 
-  : null
-}
+        <Correct text={this.state.text} continue={this.state.continue} />
+      </div>
+    ) : null
+  }
 }
 
-export default Prompt;
+export default Prompt
