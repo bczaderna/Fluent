@@ -8,7 +8,7 @@ const Navbar = ({handleClick, isLoggedIn}) => (
   <div>
     <h1>Flu·ent</h1>
     <h3>/ˈflo͞oənt/</h3>
-    <p>Your very own grammar police</p>
+    <p />
     <nav>
       {isLoggedIn ? (
         <div>

@@ -11,14 +11,47 @@ class Prompt extends Component {
 
     this.state = {
       language: 'en-US',
-      text: ''
+      text: '',
+      suggestedText: '',
+      message: '',
+      ruleDescription: '',
+      restart: false
     }
+
+    this.prompts = [
+      'Sally might have forgotten her glasses. What would you ask her to make sure she remembered them?',
+      'I want to have if you have tried my favorite passtimes. How would I ask you if you have tried the one I am currently doing?',
+      'Michael and Lucy played the game. They had ___ the game.',
+      'I have just organized all the books on the shelf. The kids have just come back into the classroom. They need not ___ them.'
+    ]
+
     this.checkGrammar = this.checkGrammar.bind(this)
+    this.replaceWithCorrections = this.replaceWithCorrections.bind(this)
+    this.addCapsAndPunctuation = this.addCapsAndPunctuation.bind(this)
   }
 
   addCapsAndPunctuation(string) {
     let questionWords = [
-      'Which', 'What', 'Whose', 'Who', 'Whom', 'Whose', 'Where', 'When', 'How', 'Why', 'Is', 'Are', 'Do', "What's", "How's", "Who's", "Where's", "Don't", "Aren't", "When's"
+      'Which',
+      'What',
+      'Whose',
+      'Who',
+      'Whom',
+      'Whose',
+      'Where',
+      'When',
+      'How',
+      'Why',
+      'Is',
+      'Are',
+      'Do',
+      "What's",
+      "How's",
+      "Who's",
+      "Where's",
+      "Don't",
+      "Aren't",
+      "When's"
     ]
     if (typeof string !== 'string') return ''
     let capitalized = string.charAt(1).toUpperCase() + string.slice(2)
@@ -29,12 +62,15 @@ class Prompt extends Component {
   }
 
   componentDidMount() {
-    annyang.start({autoRestart: false, continuous: false})
-    // if (annyang) {
-    annyang.addCallback('result', userSaid => {
-      console.log('user said', userSaid)
-      console.log(this.state, 'state')
+    annyang.start()
+    // {autoRestart: false, continuous: false}
+    var commands = {
+      'try again': () => this.setState({restart: true})
+    }
+    //add our commands to annyang
+    annyang.addCommands(commands)
 
+    annyang.addCallback('result', userSaid => {
       let bestGuess = userSaid[0]
 
       let bestGuessWithPunc = this.addCapsAndPunctuation(`${bestGuess}`)
@@ -47,43 +83,43 @@ class Prompt extends Component {
         text: bestGuessWithPunc
       })
     })
-    // }
-
-    // annyang.start()
   }
 
-  replaceWithCorrection(spokenText, suggestedReplacement, startIndex, length) {
-    console.log(spokenText, '**spokenText')
-    console.log(startIndex, '**startindex')
-    console.log(length, '***length')
-    console.log(suggestedReplacement, '***suggestedReplacement')
-    spokenText = spokenText.split('')
-    console.log(spokenText, 'spokenText')
-    
-    let spokenTextCopy = spokenText.slice()
-    let wordToReplace = spokenTextCopy.splice(startIndex, length)
-    console.log(wordToReplace.join(''), 'word to replace')
+  replaceWithCorrections(text, feedback) {
+    console.log(text, 'text in func')
+    let textArr = text.split('')
+    console.log(textArr, 'text arr')
+    console.log(feedback, 'feedback arr in func')
+    let correctedArr = []
+    for (let i = 0; i < feedback.length; i++) {
+      let currentFeedbackObj = feedback[i]
+      let index = currentFeedbackObj.index
+      let length = currentFeedbackObj.length
 
-    spokenText = spokenText.join('');
-    console.log(spokenText, 'spokenText2')
-    console.log(typeof spokenText, 'type of spoken text')
-    console.log(typeof suggestedReplacement, 'type of suggested replacement')
-    
-    
-      
-    let corrected = spokenText.replace(wordToReplace.join(''), suggestedReplacement)
-    console.log(corrected, 'corrected')
-      
-      return corrected;
-    
-    
-    // console.log(corrected, '***corrected')
-    
+      let replaceThis = textArr.slice(index, index + length).join('')
+      console.log(replaceThis, 'replace this')
+
+      let replaceWithThis = currentFeedbackObj.replacement
+      console.log(replaceWithThis, 'replace with this')
+
+      let textStr = textArr.join('')
+      console.log(textStr, 'text string')
+      let corrected = textStr.replace(replaceThis, replaceWithThis)
+
+      this.setState({
+        message: currentFeedbackObj.message,
+        ruleDescription: currentFeedbackObj.ruleDescription
+      })
+
+      correctedArr.push(corrected)
+    }
+    return correctedArr
   }
 
   async checkGrammar() {
-
-    let queryString = querystring.stringify(this.state)
+    let language = this.state.language
+    let text = this.state.text
+    let queryString = querystring.stringify({language, text})
 
     // const res = await Axios.get(
     //     `http://api.grammarbot.io/v2/check?api_key=AF5B9M2X&text=${queryString}`
@@ -95,32 +131,67 @@ class Prompt extends Component {
       queryString
     )
     const correctionInfo = res.data
-    console.log(correctionInfo, 'correction info')
 
-    let feedback = correctionInfo.matches.map(match => match.message)
-    console.log(feedback, 'FEEDBACK')
+    let feedback = correctionInfo.matches.map(function(match) {
+      let length = match.length
+      let message = match.message
+      let index = match.offset
+      let replacement = match.replacements[0].value;
+      // let replacement = match.replacements[0].value
+      let ruleId = match.rule.id
+      let ruleDescription = match.rule.description
+      let feedbackObj = {
+        length,
+        message,
+        index,
+        replacement,
+        ruleId,
+        ruleDescription
+      }
 
-    let problemStartsAtIndex = correctionInfo.matches.map(match => match.offset)[0]
+      return feedbackObj
+    })
 
-    console.log(problemStartsAtIndex, 'index')
+    console.log(feedback, 'feedback')
 
-    let lengthOfProblemChunk = correctionInfo.matches.map(match => match.length)[0]
+    let correctedPiece = this.replaceWithCorrections(
+      this.state.text,
+      feedback
+    ).join('')
 
-    console.log(lengthOfProblemChunk, 'length of problem')
+    this.setState({
+      suggestedText: correctedPiece
+    })
 
-    let suggestedReplacement = correctionInfo.matches.map(match => match.replacements[0].value)[0]
+    return correctedPiece
+  }
 
-    console.log(this.replaceWithCorrection(this.state.text, suggestedReplacement, problemStartsAtIndex, lengthOfProblemChunk), 'CORRECTED TEXT')
-
-    console.log(suggestedReplacement, 'suggestedReplacement')
+  generatePrompt() {
+    let randomIndex = Math.floor(Math.random() * this.prompts.length)
+    console.log(randomIndex, 'random index')
+    let randomPrompt = this.prompts[randomIndex];
+    return randomPrompt;
   }
 
   render() {
-    console.log(this.state.bestGuessText, 'what is bestGuess on state')
+    
 
-    return (
+    return this.state.restart === true ? (
+      <div>Restart</div>
+    ) : this.state.suggestedText && this.state.restart === false ? (
       <div>
-        <h1>Describe your hometown.</h1>
+        <ul>
+          <li>
+            Not quite! Here is the correct text:{this.state.suggestedText}
+          </li>
+          <li>Suggestion: {this.state.message}</li>
+          <li>Grammar rule to review: {this.state.ruleDescription}</li>
+        </ul>
+        To try again, say "Try Again"
+      </div>
+    ) : (
+      <div>
+        <h1>{}</h1>
 
         <button
           className="button"
@@ -136,4 +207,3 @@ class Prompt extends Component {
 }
 
 export default Prompt
-
