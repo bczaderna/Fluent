@@ -16,7 +16,7 @@ class Incorrect extends Component {
     }
 
     componentDidMount() {
-        annyang.start()
+        annyang.start({ autoRestart: false, continuous: false });
 
         var commands = {
             'next': () => this.setState({restart: true})
@@ -28,14 +28,17 @@ class Incorrect extends Component {
     render() {
     return this.state.restart === true ? <Prompt /> :(
     <div>
-        <ul>
-          <div>You said: {this.props.text}</div>
+        
+          <h3>Your answer is INCORRECT! :( </h3>
+          <br></br>
+          <div>{this.props.message}</div>
+          <ul>
           <li>
-            INCORRECT! Here is the correct text:{this.props.suggestedText}
-          </li>
-          <li>Suggestion: {this.props.message}</li>
-          <li>Grammar rule to review: {this.props.ruleDescription}</li>
-        </ul>
+            You said: "{this.props.text}". The correct sentence is: "{this.props.suggestedText}"
+          </li><br></br>
+          <li>Review this rule: {this.props.rule}</li>
+        </ul><br></br>
+        <br></br>
         To try again, say "Next!"
       </div>
     )

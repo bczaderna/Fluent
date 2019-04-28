@@ -36,6 +36,7 @@ class UserHome extends Component {
 
   render() {
     //can I do a string of ternaries like this?
+    console.log(this.state.start, 'WHAT IS START STATE IN USER HOME')
 
     return this.state.start === false && this.state.review === false? (
     <div>
@@ -45,20 +46,11 @@ class UserHome extends Component {
       <h2>If you want to review your previous mistakes, say, "Review!"</h2>
     </div> ) : (
       
-      this.state.start ? <Prompt /> : this.state.review ? <ReviewHistory /> : null )
+      this.state.start === true ? <Prompt /> : this.state.review ? <ReviewHistory /> : null )
   
     
   }
 }
-  // return (
-  //   <div>
-  //     <h3>Welcome, {email}</h3>
-  //     <h1>Your current grammar score is: {5}</h1>
-  //     <h2>If you're ready to start, say, "Start!"</h2>
-  //     <h2>If you want to review your previous mistakes, say, "Review!"</h2>
-  //   </div>
-    
-  // )
 
 
 /**

@@ -18,7 +18,8 @@ class Prompt extends Component {
       message: '',
       ruleDescription: '',
       restart: false,
-      allcorrect: false
+      allcorrect: false,
+      continue: false
     }
 
     this.prompts = [
@@ -65,10 +66,13 @@ class Prompt extends Component {
   }
 
   componentDidMount() {
-    annyang.start()
-    // {autoRestart: false, continuous: false}
+  
+    annyang.start({ autoRestart: false });
+
     var commands = {
-      'try again': () => this.setState({restart: true})
+      'continue': () => this.setState({
+        continue: true 
+      })
     }
     //add our commands to annyang
     annyang.addCommands(commands)
@@ -81,6 +85,14 @@ class Prompt extends Component {
       console.log(bestGuessWithPunc, 'best guess with punc')
 
       bestGuessWithPunc = this.state.text + ' ' + bestGuessWithPunc
+
+      if (bestGuessWithPunc.includes('.')) {
+        bestGuessWithPunc = bestGuessWithPunc.slice(0, bestGuessWithPunc.indexOf('.') + 1)
+      } else if (bestGuessWithPunc.includes('?')) {
+        bestGuessWithPunc = bestGuessWithPunc.slice(0, bestGuessWithPunc.indexOf('?') + 1)
+      }
+
+      console.log(bestGuessWithPunc, 'should just be first sentence???')
 
       this.setState({
         text: bestGuessWithPunc
@@ -174,8 +186,12 @@ class Prompt extends Component {
     this.setState({
       suggestedText: correctedPiece
     })
+ 
+    // annyang.pause();
 
     return correctedPiece
+
+    
   }
 
   generatePrompt() {
@@ -186,6 +202,7 @@ class Prompt extends Component {
   }
 
   render() {
+    console.log(this.state, 'what is on state in PROMPT.js')
     //if there have been no answers submitted yet....
     return !this.state.suggestedText && this.state.allcorrect === false ? (
       <div>
@@ -202,10 +219,10 @@ class Prompt extends Component {
       </div>
     ) : this.state.suggestedText !== ''? (
       <div>
-      <Incorrect text={this.state.text} suggestedText={this.state.suggestedText} message= {this.state.message} rule={this.state.ruleDescription}/></div>
+      <Incorrect text={this.state.text} suggestedText={this.state.suggestedText} message= {this.state.message} rule={this.state.ruleDescription} continue = {this.state.continue} /></div>
     ) : this.state.suggestedText === '' && this.state.allcorrect === true? (
       <div>
-      <Correct text={this.state.text}/></div>
+      <Correct text={this.state.text} continue={this.state.continue}/></div>
     ) 
   : null
 }

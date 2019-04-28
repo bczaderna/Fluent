@@ -11,29 +11,33 @@ class  Correct extends Component{
         super(props)
 
         this.state = {
-            prompt: false
+            continue: false
         }
     }
 
     componentDidMount() {
-        annyang.start()
+        annyang.start();
 
         var commands = {
-            'next': () => this.setState({prompt: true})
+            'continue': () => this.setState({continue: true})
         }
 
         annyang.addCommands(commands);
     }
 
     render() {
-
-    return this.state.prompt === true ? <Prompt /> : (
+        console.log(this.state.continue, 'continue on state in Correct')
+        console.log(this.props.continue, 'continue on props in Correct')
+    return this.props.continue === true || this.state.continue === true ? <Prompt /> : (
     <div>
-          <h3>You said: {this.props.text}</h3>
-          <h3>
-            Great job! That's CORRECT!
+        <h3>
+            Great job! Your answer is CORRECT :)!
           </h3>
-          To go again, say "Next!"
+          <div>You said: "{this.props.text}"</div>
+          <br></br>
+          <br></br>
+          
+          To go again, say "Continue!"
       </div>
     )
     }
