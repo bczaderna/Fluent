@@ -7,6 +7,7 @@ import Incorrect from './Incorrect'
 import Correct from './Correct'
 const querystring = require('querystring')
 
+
 class Prompt extends Component {
   constructor() {
     super()
@@ -19,12 +20,13 @@ class Prompt extends Component {
       ruleDescription: '',
       restart: false,
       allcorrect: false,
-      continue: false
+      continue: false,
+      prompt: ''
     }
 
-    this.prompts = [
-      'How old is John?', 'She feels inferior ______ us.', 'It’s obvious ______ me.', 'I plan to go fishing at 8pm today. I will go fishing ______ evening.', 'Do you need life insurance? You can apply _______ life insurance at this company.', 'I do ______ tests because I don’t study enough.'
-    ]
+    // this.prompts = [
+    //   'How old is John?', 'She feels inferior ______ us.', 'It’s obvious ______ me.', 'I plan to go fishing at 8pm today. I will go fishing ______ evening.', 'Do you need life insurance? You can apply _______ life insurance at this company.', 'I do ______ tests because I don’t study enough.'
+    // ]
 
     this.checkGrammar = this.checkGrammar.bind(this)
     this.replaceWithCorrections = this.replaceWithCorrections.bind(this)
@@ -62,7 +64,16 @@ class Prompt extends Component {
     } else return capitalized + '.'
   }
 
-  componentDidMount() {
+  async componentDidMount() {
+
+    let res = await Axios.get('/api/prompt')
+    let prompt = res.data;
+
+    this.setState({
+      prompt: prompt
+    })
+    
+    console.log(prompt, 'prompt in Prompt component')
   
     annyang.start({ autoRestart: false });
 
@@ -189,22 +200,22 @@ class Prompt extends Component {
     
   }
 
-  generatePrompt = () => {
-    let randomIndex = Math.floor(Math.random() * this.prompts.length)
-    console.log(randomIndex, 'random index')
-    let randomPrompt = this.prompts[randomIndex]
-    return randomPrompt
-  }
+  // generatePrompt = () => {
+  //   let randomIndex = Math.floor(Math.random() * this.prompts.length)
+  //   console.log(randomIndex, 'random index')
+  //   let randomPrompt = this.prompts[randomIndex]
+  //   return randomPrompt
+  // }
 
   render() {
     console.log(this.state, 'what is on state in PROMPT.js')
-    let randomPrompt = this.generatePrompt();
+    // let randomPrompt = this.generatePrompt();
 
     console.log(this.state.suggestedText, 'what is suggested text')
     //if there have been no answers submitted yet....
     return !this.state.suggestedText  &&!this.state.suggestedText && this.state.allcorrect === false ? (
       <div>
-        <h1>PROMPT</h1>
+        <h1>{this.state.prompt.text}</h1>
 
         <button
           className="button"
