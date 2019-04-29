@@ -31,7 +31,7 @@ class Incorrect extends Component {
         
           <h2>Your answer is INCORRECT! </h2>
           <br></br>
-          <div>{this.props.message}</div>
+          <h2>{this.props.message}</h2>
           
           <h2>
             You said: "{this.props.text}". The correct sentence is: "{this.props.suggestedText}"
