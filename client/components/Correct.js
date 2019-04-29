@@ -19,12 +19,6 @@ class  Correct extends Component{
     componentDidMount() {
         annyang.start();
 
-        var commands = {
-            'continue': () => this.setState({continue: true})
-        }
-
-        annyang.addCommands(commands);
-
         this.props.addedScore();
     }
 

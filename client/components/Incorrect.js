@@ -11,38 +11,49 @@ class Incorrect extends Component {
         super(props)
 
         this.state = {
-            restart: false
+            continue: false
         }
     }
 
     componentDidMount() {
         annyang.start({ autoRestart: false, continuous: false });
 
-        var commands = {
-            'next': () => this.setState({restart: true})
-        }
+    }
 
-        annyang.addCommands(commands);
+    continue= () => {
+        this.setState({
+            continue: true
+        })
     }
 
     render() {
-    return this.state.restart === true ? <Prompt /> :(
+    return this.state.continue === true ? <Prompt /> :(
     <div>
         
           <h2>Your answer is INCORRECT! </h2>
           <br></br>
-          <h2>{this.props.message}</h2>
-          
+          <h3>Your current grammar score is: {this.props.score}</h3>
+          <br></br>
           <h2>
             You said: "{this.props.text}". The correct sentence is: "{this.props.suggestedText}"
-          </h2><br></br>
+          </h2>
+          <br></br><h2>{this.props.message}</h2>
+          <br></br>
           <h2>Review this rule: {this.props.rule}</h2>
         <br></br>
         <br></br>
-        To try again, say "Next!"
+        <button className="button" onClick={this.continue}>
+            Let's continue!
+          </button>
       </div>
     )
     }
 }
 
-export default Incorrect;
+const mapStateToProps = state => {
+    return {
+      score: state.score
+    }
+  }
+
+  export default connect (mapStateToProps)(Incorrect);

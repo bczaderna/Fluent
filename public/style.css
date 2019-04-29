@@ -1,3 +1,16 @@
+* {
+  background-color: #e9e3ea
+}
+
+button {
+  padding: 0.5em 1em;
+  background-color: #995475;
+  color: white;
+  font-size: 1em;
+  transition: all 0.1s ease;
+  border-radius: 10px;
+}
+
 body {
   font-family: sans-serif; }
   body a {

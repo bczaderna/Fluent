@@ -21,7 +21,8 @@ class Prompt extends Component {
       allcorrect: false,
       containsError: false,
       continue: false,
-      prompt: ''
+      prompt: '',
+      correctedPiece: ''
     }
 
     this.checkGrammar = this.checkGrammar.bind(this)
@@ -207,6 +208,10 @@ class Prompt extends Component {
       })
     }
 
+    this.setState({
+      correctedPiece: correctedPiece
+    })
+
     console.log(correctedPiece, 'corrected piece')
     console.log(this.state.bestGuess, 'best guess')
 
@@ -252,7 +257,7 @@ class Prompt extends Component {
       <div>
         <Incorrect
           text={this.state.text}
-          suggestedText={this.state.suggestedText}
+          suggestedText={this.state.correctedPiece}
           message={this.state.message}
           rule={this.state.ruleDescription}
           continue={this.state.continue}
