@@ -39,7 +39,7 @@ class Incorrect extends Component {
           </h2>
           <br></br><h2>{this.props.message}</h2>
           <br></br>
-          <h2>Review this rule: {this.props.rule}</h2>
+          <h2><em>Review this rule: {this.props.rule}</em></h2>
         <br></br>
         <br></br>
         <button className="button" onClick={this.continue}>
