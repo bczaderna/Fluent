@@ -52,7 +52,7 @@ class UserHome extends Component {
      
       <h2>Your current grammar score is: {this.props.averageScore}</h2><br></br>
 
-      <button type="button" onClick={this.goToPrompt}>
+      <button className="button" onClick={this.goToPrompt}>
             Start!
           </button>
 

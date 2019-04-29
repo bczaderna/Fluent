@@ -19,6 +19,7 @@ class Prompt extends Component {
       ruleDescription: '',
       restart: false,
       allcorrect: false,
+      containsError: false,
       continue: false,
       prompt: ''
     }
@@ -52,11 +53,15 @@ class Prompt extends Component {
       "When's"
     ]
     if (typeof string !== 'string') return ''
-    let capitalized = string.charAt(1).toUpperCase() + string.slice(2)
+    let capitalized = string.charAt(0).toUpperCase() + string.slice(1)
+    console.log(capitalized, 'capitalized in the func')
     let arr = capitalized.split(' ')
     if (questionWords.includes(arr[0])) {
+      console.log(arr, 'arr')
       return capitalized + '?'
-    } else return capitalized + '.'
+    } else if (arr[arr.length - 1] !== '.') {
+      return capitalized + '.'
+    } else return capitalized
   }
 
   async componentDidMount() {
@@ -83,10 +88,17 @@ class Prompt extends Component {
     annyang.addCallback('result', userSaid => {
       let bestGuess = userSaid[0]
       console.log(userSaid, 'user said')
+      if (bestGuess.slice(0, 1) === ' ') {
+        console.log(bestGuess, 'BEST GUESS INSIDE THE IF STATEMENT')
+        bestGuess = bestGuess.slice(1);
+        console.log(bestGuess, 'NEW BEST GUESS WITHOUT EMPTY SPACE')
+      }
       
       let bestGuessWithPunc = this.addCapsAndPunctuation(`${bestGuess}`)
 
       bestGuessWithPunc = this.state.text + ' ' + bestGuessWithPunc
+
+      console.log(bestGuessWithPunc, 'best guess with punc')
 
       this.setState({
         bestGuess: bestGuessWithPunc
@@ -183,26 +195,44 @@ class Prompt extends Component {
       feedback
     ).join('')
 
+    console.log(feedback, 'what is feedback')
+
     if (!feedback.length) {
       this.setState({
         allcorrect: true
       })
+    } else {
+      this.setState({
+        containsError: true
+      })
     }
 
+    console.log(correctedPiece, 'corrected piece')
+    console.log(this.state.bestGuess, 'best guess')
 
-    this.setState({
-      suggestedText: correctedPiece
-    })
+
+
+    // this.setState({
+    //   bestGuess: correctedPiece
+    // })
 
     return correctedPiece
   }
 
   render() {
-    console.log(this.state.bestGuess, 'best guess in render')
+    // console.log(this.state.bestGuess, 'best guess in render')
+    console.log(this.state.containsError, 'does it contain error?')
+    console.log(this.state.allcorrect, 'is it all correct?')
+
+    // let lastChar = this.state.bestGuess.substr(this.state.bestGuess.length -1);
+
+    // console.log(lastChar, 'LAST CHAR')
+
+    // if (lastChar !== '?') {
+    //   this.state.bestGuess = this.state.bestGuess + '.'
+    // }
     //if there have been no answers submitted yet....
-    return !this.state.suggestedText &&
-      !this.state.suggestedText &&
-      this.state.allcorrect === false ? (
+    return this.state.allcorrect === false && this.state.containsError === false ? (
       <div>
         <h1>{this.state.prompt.text}</h1>
         <br></br>
@@ -218,7 +248,7 @@ class Prompt extends Component {
           Check My Grammar
         </button>
       </div>
-    ) : this.state.suggestedText !== '' ? (
+    ) : this.state.containsError ? (
       <div>
         <Incorrect
           text={this.state.text}

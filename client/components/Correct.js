@@ -28,11 +28,17 @@ class  Correct extends Component{
         this.props.addedScore();
     }
 
+    continue= () => {
+        this.setState({
+            continue: true
+        })
+    }
+
     render() {
         console.log(this.props.score, 'CURRENT SCORE')
         console.log(this.state.continue, 'continue on state in Correct')
         console.log(this.props.continue, 'continue on props in Correct')
-    return this.props.continue === true || this.state.continue === true ? <Prompt /> : (
+    return this.state.continue === true ? <Prompt /> : (
     <div>
         <h2>
             Great job! Your answer is CORRECT!
@@ -42,8 +48,9 @@ class  Correct extends Component{
           <h2>Your current grammar score is: {this.props.score}</h2>
           <br></br>
           <br></br>
-          
-          To go again, say "Continue!"
+          <button className="button" onClick={this.continue}>
+            Let's continue!
+          </button>
       </div>
     )
     }
