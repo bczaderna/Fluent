@@ -34,12 +34,12 @@ class  Correct extends Component{
         console.log(this.props.continue, 'continue on props in Correct')
     return this.state.continue === true ? <Prompt /> : (
     <div>
-        <h2>
+        <h2 id='correct'>
             Great job! Your answer is CORRECT!
           </h2><br>
           </br>
-          <h2>You said: "{this.props.text}"</h2>
-          <h2>Your current grammar score is: {this.props.score}</h2>
+          <h2 class='purple'>You said: "{this.props.text}"</h2>
+          <h2 class= 'purple'>Your current grammar score is: {this.props.score}</h2>
           <br></br>
           <br></br>
           <button className="button" onClick={this.continue}>

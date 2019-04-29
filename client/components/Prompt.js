@@ -55,10 +55,10 @@ class Prompt extends Component {
     ]
     if (typeof string !== 'string') return ''
     let capitalized = string.charAt(0).toUpperCase() + string.slice(1)
-    console.log(capitalized, 'capitalized in the func')
+    
     let arr = capitalized.split(' ')
     if (questionWords.includes(arr[0])) {
-      console.log(arr, 'arr')
+      
       return capitalized + '?'
     } else if (arr[arr.length - 1] !== '.') {
       return capitalized + '.'
@@ -92,14 +92,14 @@ class Prompt extends Component {
       if (bestGuess.slice(0, 1) === ' ') {
         console.log(bestGuess, 'BEST GUESS INSIDE THE IF STATEMENT')
         bestGuess = bestGuess.slice(1);
-        console.log(bestGuess, 'NEW BEST GUESS WITHOUT EMPTY SPACE')
+       
       }
       
       let bestGuessWithPunc = this.addCapsAndPunctuation(`${bestGuess}`)
 
       bestGuessWithPunc = this.state.text + ' ' + bestGuessWithPunc
 
-      console.log(bestGuessWithPunc, 'best guess with punc')
+      
 
       this.setState({
         bestGuess: bestGuessWithPunc
@@ -239,9 +239,9 @@ class Prompt extends Component {
     //if there have been no answers submitted yet....
     return this.state.allcorrect === false && this.state.containsError === false ? (
       <div>
-        <h1>{this.state.prompt.text}</h1>
+        <h1 id='prompt'>{this.state.prompt.text}</h1>
         <br></br>
-        <h2><em>{this.state.bestGuess}</em></h2>
+        <h2 id='prompt'><em>{this.state.bestGuess}</em></h2>
         <br></br>
         <br></br>
         <button
@@ -253,7 +253,7 @@ class Prompt extends Component {
           Check My Grammar
         </button>
       </div>
-    ) : this.state.containsError ? (
+    ) : this.state.containsError || this.state.text === '' ? (
       <div>
         <Incorrect
           text={this.state.text}

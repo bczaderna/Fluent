@@ -48,9 +48,9 @@ class UserHome extends Component {
 
     return this.state.goToPrompt === false ? (
     <div>
-      <h3>Welcome, Bianca! </h3>
+      <h1 id='prompt'>Welcome, Bianca! </h1>
      
-      <h2>Your current grammar score is: 0</h2><br></br>
+      <h2 id='prompt'>Your current grammar score is: 0</h2><br></br>
 
       <button className="button" onClick={this.goToPrompt}>
             Start!

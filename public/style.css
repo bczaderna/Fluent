@@ -11,6 +11,22 @@ button {
   border-radius: 10px;
 }
 
+#correct {
+  color: green;
+}
+
+#incorrect {
+  color: red;
+}
+
+#prompt {
+  color: #3c2e42;
+}
+
+.purple {
+  color: #995475;
+}
+
 body {
   font-family: sans-serif; }
   body a {
