@@ -29,15 +29,15 @@ class Incorrect extends Component {
     return this.state.restart === true ? <Prompt /> :(
     <div>
         
-          <h3>Your answer is INCORRECT! :( </h3>
+          <h2>Your answer is INCORRECT! </h2>
           <br></br>
           <div>{this.props.message}</div>
-          <ul>
-          <li>
+          
+          <h2>
             You said: "{this.props.text}". The correct sentence is: "{this.props.suggestedText}"
-          </li><br></br>
-          <li>Review this rule: {this.props.rule}</li>
-        </ul><br></br>
+          </h2><br></br>
+          <h2>Review this rule: {this.props.rule}</h2>
+        <br></br>
         <br></br>
         To try again, say "Next!"
       </div>

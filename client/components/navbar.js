@@ -5,13 +5,9 @@ import {Link} from 'react-router-dom'
 import {logout} from '../store'
 
 const Navbar = ({handleClick, isLoggedIn}) => (
-  <div>
-    <h1>Flu·ent</h1>
-    <h3>/ˈflo͞oənt/</h3>
-    <div>adjective
-(of a person) able to express oneself easily and articulately.
-"a fluent speaker and writer on technical subjects"
-synonyms:	articulate, eloquent, expressive, communicative, coherent, cogent, illuminating; </div>
+  <div class='navbar'>
+    <img id='siteTitle' src='https://i.imgur.com/9YavC33.png'/>
+    
     <p />
     <nav>
       {isLoggedIn ? (

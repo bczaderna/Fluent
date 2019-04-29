@@ -8,5 +8,5 @@ const Prompts = db.define('prompts', {
     }
 })
 
-module.exports = Prompts
+module.exports = Prompts;
 

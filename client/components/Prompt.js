@@ -64,10 +64,10 @@ class Prompt extends Component {
     let prompt = res.data
 
     this.setState({
-      prompt: prompt
+      prompt: prompt,
+      bestGuess: ''
     })
 
-    console.log(prompt, 'prompt in Prompt component')
 
     annyang.start({autoRestart: false})
 
@@ -82,13 +82,15 @@ class Prompt extends Component {
 
     annyang.addCallback('result', userSaid => {
       let bestGuess = userSaid[0]
-
+      console.log(userSaid, 'user said')
+      
       let bestGuessWithPunc = this.addCapsAndPunctuation(`${bestGuess}`)
-
-      console.log(bestGuessWithPunc, 'best guess with punc')
 
       bestGuessWithPunc = this.state.text + ' ' + bestGuessWithPunc
 
+      this.setState({
+        bestGuess: bestGuessWithPunc
+      })
       if (bestGuessWithPunc.includes('.')) {
         bestGuessWithPunc = bestGuessWithPunc.slice(
           0,
@@ -101,7 +103,6 @@ class Prompt extends Component {
         )
       }
 
-      console.log(bestGuessWithPunc, 'should just be first sentence???')
 
       this.setState({
         text: bestGuessWithPunc
@@ -110,10 +111,9 @@ class Prompt extends Component {
   }
 
   replaceWithCorrections(text, feedback) {
-    console.log(text, 'text in func')
+    
     let textArr = text.split('')
-    console.log(textArr, 'text arr')
-    console.log(feedback, 'feedback arr in func')
+    
     let correctedArr = []
     for (let i = 0; i < feedback.length; i++) {
       let currentFeedbackObj = feedback[i]
@@ -121,13 +121,13 @@ class Prompt extends Component {
       let length = currentFeedbackObj.length
 
       let replaceThis = textArr.slice(index, index + length).join('')
-      console.log(replaceThis, 'replace this')
+      
 
       let replaceWithThis = currentFeedbackObj.replacement
-      console.log(replaceWithThis, 'replace with this')
+      
 
       let textStr = textArr.join('')
-      console.log(textStr, 'text string')
+      
       let corrected = textStr.replace(replaceThis, replaceWithThis)
 
       this.setState({
@@ -143,19 +143,19 @@ class Prompt extends Component {
   async checkGrammar() {
     let language = this.state.language
     let text = this.state.text
+    
     let queryString = querystring.stringify({language, text})
 
     // const res = await Axios.get(
-    //     `http://api.grammarbot.io/v2/check?api_key=AF5B9M2X&text=${queryString}`
+    //     `http://api.grammarbot.io/v2/check?api_key=AF5B9M2X&${queryString}`
     // )
-    console.log(queryString, 'query string')
 
     const res = await Axios.post(
       'https://languagetool.org/api/v2/check',
       queryString
     )
     const correctionInfo = res.data
-    console.log(correctionInfo, 'correction info')
+    
 
     let feedback = correctionInfo.matches.map(function(match) {
       let length = match.length
@@ -177,7 +177,6 @@ class Prompt extends Component {
       return feedbackObj
     })
 
-    console.log(feedback, 'feedback')
 
     let correctedPiece = this.replaceWithCorrections(
       this.state.text,
@@ -190,7 +189,6 @@ class Prompt extends Component {
       })
     }
 
-    console.log(this.state.allcorrect, 'allcorrect state -- should be true')
 
     this.setState({
       suggestedText: correctedPiece
@@ -200,16 +198,17 @@ class Prompt extends Component {
   }
 
   render() {
-    console.log(this.state, 'what is on state in PROMPT.js')
-
-    console.log(this.state.suggestedText, 'what is suggested text')
+    console.log(this.state.bestGuess, 'best guess in render')
     //if there have been no answers submitted yet....
     return !this.state.suggestedText &&
       !this.state.suggestedText &&
       this.state.allcorrect === false ? (
       <div>
         <h1>{this.state.prompt.text}</h1>
-
+        <br></br>
+        <h2><em>{this.state.bestGuess}</em></h2>
+        <br></br>
+        <br></br>
         <button
           className="button"
           onClick={() => {

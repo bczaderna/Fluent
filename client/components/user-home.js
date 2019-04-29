@@ -5,6 +5,7 @@ import { BrowserRouter, Route, Link, Redirect } from 'react-router-dom'
 import Prompt from './Prompt'
 import ReviewHistory from './ReviewHistories'
 import annyang from 'annyang'
+import {getAverage} from '../store/scoreReducer'
 
 
 class UserHome extends Component {
@@ -30,6 +31,9 @@ class UserHome extends Component {
 
       //start listening
       annyang.start();
+
+      this.props.getAverage()
+
     }
   }
   // const {email} = props
@@ -42,7 +46,7 @@ class UserHome extends Component {
     <div>
       <h3>Welcome, Bianca! </h3>
      
-      <h2>Your current grammar score is: {5}</h2><br></br>
+      <h2>Your current grammar score is: {this.props.score}</h2><br></br>
       <h2>If you're ready to start practicing, say, "Start!"</h2>
       <h2>If you want to review your previous mistakes, say, "Review!"</h2>
     </div> ) : (
@@ -57,13 +61,20 @@ class UserHome extends Component {
 /**
  * CONTAINER
  */
-const mapState = state => {
+const mapStateToProps = state => {
   return {
-    email: state.user.email
+    email: state.user.email,
+    score: state.score.score
   }
 }
 
-export default connect(mapState)(UserHome)
+const mapDispatchToProps = dispatch => {
+  return {
+    getAverage: () => dispatch(getAverage())
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(UserHome)
 
 /**
  * PROP TYPES

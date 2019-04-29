@@ -1,6 +1,21 @@
 * {
-  background-color: azure
+  box-sizing: border-box;
+  margin: 5px;
+  background-color: #e2d7de;
 }
+
+.button {
+  color: #995475;
+  padding: 0.5em 1em;
+  background-color: #995475;
+  color: white;
+  font-size: 1em;
+  transition: all 0.1s ease;
+  border-radius: 10px;
+}
+
+
+
 
 body {
   font-family: sans-serif; }
