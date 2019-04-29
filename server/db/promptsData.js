@@ -52,10 +52,10 @@ module.exports = [
     text: 'Sarah hardly ever drinks coffee ______ the morning because it gives her a stomach ache.'
 },
 {
-    text: 'A clinical psychologist deals with people suffering ______ different disorders.'
+    text: 'He’s never had a job in his life. He lives _______ his father’s money.'
 },
 {
-    text: 'Do you have sneakers _____ on your feet?'
+    text: 'Lilly yelled ______ him after he had forgotten to come to her concert.'
 },
 {
     text: 'They like to play soccer _______ the weekend.'
@@ -70,33 +70,64 @@ module.exports = [
     text: 'I heard they will travel to England soon.  When are they leaving?'
 }, 
 {
-    text: 'How did Harry meet Sally?'
+    text: 'At his office, Mark is responsible _______ sales.'
 }, 
 {
     text: 'You told me a few months ago that you were going to go to Hawaii. Did you end up going?'
 }, 
+{
+    text: 'Yes, please bring Suzanne ________ the party!'
+},
+{
+    text: '_______ my perspective, you would be a fool not to marry him!'
+}, {
+    text: 'I can tell that Erin is _______ pressure because she looks very nervous.'
+}, {
+    text: 'Oliver is completely absorbed _________ his book.'
+}, {
+    text: 'Is the group traveling ______ bus or ______ train?'
+}, {
+    text: 'The soil by the house is  very bad.  Nothing grows in it! It is _____________ of nutrients.'
+}, {
+    text: 'Divide the pizza ________ four, please!'
+}, {
+    text: 'Our pitbull guards us _______ burglars.'
+}, {
+    text: 'Fine, I will get your gardening gloves for you! I will get them _______ moment!'
+}, {
+    text: 'The mechanic is accustomed ________ these kinds of situations.'
+}, {
+    text: 'The dentist is waiting ______ his patient.'
+}, {
+    text: 'Track 9 is my favorite. Listen to that track _______ the album.'
+}, {
+    text: 'From her away message, I can tell you that Carol is going ______ vacation tomorrow.'
+}, {
+    text: 'I don’t have time to research this much — Hariet, can you check it _____ Wikipedia for me?'
+}, {
+    text: 'When making his predictions, the financial advisor didn’t account ________ the change in the economy.'
+}, {
+    text: 'The roof you want to get on your house is the same as the one your neighbor has. It will be _______ your neighbor’s.'
+}, {
+    text: 'Alexi didn’t like being an accountant because he never liked numbers. He just wasn’t _________ the job.'
+}, {
+    text: 'Thomas and Katie decided to go to an bike ride _______ Maine.'
+}, {
+    text: 'The elderly man asked __________ I like cats.'
+}
 ]
 
 
-// At his office, Mark is responsible _______ sales.
 
 // I’m thinking ___________ this poem.
 
 // The French cafe is only a few blocks away from your apartment. When describing how near by it is to a friend, you would say….
 
-// He’s never had a job in his life. He lives _______ his father’s money.
-
-// Lilly yelled ______ him after he had forgotten to come to her concert.
 
 // That judge is 67 years old and he _________ the court since 1998.
 
 // James Bond is always ________ a secret mission of some kind.
 
-// Yes, please bring Suzanne ________ the party!
-
-// _______ my perspective, you would be a fool not to marry him!
-
-// I can tell that Erin is _______ pressure because she looks very nervous.
 
 // Oliver is completely absorbed _________ his book.
 
@@ -108,23 +139,15 @@ module.exports = [
 
 // You have just bought a new, very expensive camera. When telling your daughter to careful with it, you would say……
 
-// Is the group traveling ______ bus or ______ train?
-
-// The soil by the house is  very bad.  Nothing grows in it! It is _____________ of nutrients.
 
 // The doctor told my grandmother that the medicine would cure her  _________ disease. 
 
-// Divide the pizza ________ four, please!
 
 // I know he’s happy about the agreement. He’s glad ______ that.
 
-// Our pitfall guards us _______ burglars.
 
 // Fine, I will get your gardening gloves for you! I will get them _______ moment!
 
-// Track 9 is my favorite. Listen to that track _______ the album.
-
-// From her away message, I can tell you that Carol is going ______ vacation tomorrow.
 
 // We have finished a few of the steps in the directions, but there are still a few steps to _____.
 
